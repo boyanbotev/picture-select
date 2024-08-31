@@ -1,0 +1,70 @@
+:root {
+    --cream-light: rgba(254, 255, 227, 1);
+    --cream-transparent: rgba(254, 255, 227, 0.4);
+    --cream--semi-transparent: rgba(254, 255, 227, 0.8);
+    --cream-dark: rgb(223, 223, 174);
+
+    --font-size: 42px;
+}
+
+.main {
+    padding: 4% 16%;
+    height: 100%;
+    border-radius: 50px;
+}
+
+.header, .footer {
+    background-color: var(--cream-dark);
+    border-color: var(--cream-dark);
+}
+
+.header {
+    justify-content: center;
+    padding-left: 24px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 20px;
+    border-bottom-width: 2px;
+}
+
+.body {
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cream-dark);
+    font-size: var(--font-size);
+}
+
+.footer {
+    height: 20px;
+    flex-direction: row;
+    color:#ffffff;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 24px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-width: 2px;
+}
+
+.sections {
+    flex: 1;
+}
+
+.word {
+    flex-direction: row;
+}
+
+.selectable-images {
+    flex-direction: row;
+}
+
+.image {
+    width: 100px;
+    height: 100px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-width: 10px;
+    border-color: var(--cream-dark);
+    background-color: var(--cream-dark);
+}
