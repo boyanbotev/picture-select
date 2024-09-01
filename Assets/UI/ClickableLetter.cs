@@ -19,6 +19,8 @@ public class ClickableLetter : VisualElement
 
         var letterLabel = new Label(value);
         Add(letterLabel);
+
+        RegisterCallback<PointerDownEvent>(evt => Select());
     }
 
     public void Select() {
