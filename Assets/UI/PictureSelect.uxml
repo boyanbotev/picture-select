@@ -3,12 +3,7 @@
     <ui:VisualElement class="main">
         <ui:VisualElement class="sections">
             <ui:VisualElement class="header" />
-            <ui:VisualElement class="body">
-                <ui:VisualElement class="words-to-read">
-                    <ui:VisualElement class="word"></ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement class="selectable-images"></ui:VisualElement>
-            </ui:VisualElement>
+            <ui:VisualElement class="body" />
             <ui:VisualElement class="footer" />
         </ui:VisualElement>
     </ui:VisualElement>

@@ -1,31 +1,56 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PictureSelectManager : MonoBehaviour
+public class PictureSelect: Lesson
 {
     public static event Action onFinish;
     public static event Action<string> onCorrect;
     public static event Action onFalse;
+    private bool isActive = false;
 
     [SerializeField] PictureSelectChallenge[] pictureSelectSequence;
+    private TaskElementData[] taskSequence;
     private int itemIndex = 0;
     private UIDocument uiDoc;
     VisualElement root;
+
+    VisualElement bodyEl;
     VisualElement imageEl;
     VisualElement wordEl;
     PictureSelectChallenge currentChallenge;
 
-    private void OnEnable()
-    {
-        uiDoc = FindObjectOfType<UIDocument>();
-        root = uiDoc.rootVisualElement;
-        imageEl = root.Q(className: "selectable-images");
-        wordEl = root.Q(className: "word");
+    public override void Activate(TaskData taskData) {
+        if (isActive) return;
 
+        pictureSelectSequence = taskData.elements.Select(t => {
+            if (t.images == null || t.images.Length < 1)
+            {
+                Debug.LogError("Images not found");
+            } 
+            else if (t.words == null || t.words.Length < 1)
+            {
+                Debug.LogError("Words not found");
+            }
+
+            return new PictureSelectChallenge(t.images, t.words[0]);
+        }).ToArray();
+
+        BuildContainers();
         BuildChallenge();
+
+        isActive = true;
+    }
+
+    public override void Deactivate() {
+        if (!isActive) return;
+
+        bodyEl.Clear();
+
+        isActive = false;
     }
 
     void BuildChallenge() {
@@ -33,6 +58,20 @@ public class PictureSelectManager : MonoBehaviour
 
         CreateTargetWord();
         CreateImages();
+    }
+
+    void BuildContainers() {
+        uiDoc = FindObjectOfType<UIDocument>();
+        root = uiDoc.rootVisualElement;
+        bodyEl = root.Q(className: "body");
+
+        imageEl = new VisualElement();
+        imageEl.AddToClassList("selectable-images");
+        bodyEl.Add(imageEl);
+
+        wordEl = new VisualElement();
+        wordEl.AddToClassList("word");
+        bodyEl.Add(wordEl);
     }
 
     void CreateTargetWord() {
@@ -51,11 +90,11 @@ public class PictureSelectManager : MonoBehaviour
         }
     }
 
-    void CreateImage(ImageSelectData imageSelectData)
+    void CreateImage(ImageData imageData)
     {
-        var image = new ClickableImage(imageSelectData.name, imageSelectData.texture);
+        var image = new ClickableImage(imageData.name, imageData.texture);
         imageEl.Add(image);
-        image.RegisterCallback<PointerDownEvent>(evt => OnImageSelect(imageSelectData.name));
+        image.RegisterCallback<PointerDownEvent>(evt => OnImageSelect(imageData.name));
     }
 
     void OnImageSelect(string word) {
@@ -82,12 +121,18 @@ public class PictureSelectManager : MonoBehaviour
     }
 
     void OnFinishSequence() {
+        Deactivate();
+        Reset();
         onFinish?.Invoke();
     }
 
     void OnIncorrectAnswer() {
-        onFalse?.Invoke();
         // TODO: shake item
+        onFalse?.Invoke();
+    }
+
+    void Reset() {
+        itemIndex = 0;
     }
 
     private IEnumerator WinRoutine() {

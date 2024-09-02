@@ -284,75 +284,8 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: f124a862a7911be4192f3870426ac47a, type: 3}
   - name: tin
     audioClip: {fileID: 8300000, guid: 768685bea42822e4dbd4021e508449e3, type: 3}
---- !u!1 &1124580700
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1124580701}
-  - component: {fileID: 1124580702}
-  m_Layer: 0
-  m_Name: PictureSelectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1124580701
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1124580700}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1124580702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1124580700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40c895965dd12fa4fab58bc0e29f5977, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pictureSelectSequence:
-  - images:
-    - texture: {fileID: 2800000, guid: d96cfcc75bb39a948b8d051ec0fea044, type: 3}
-      name: ant
-    - texture: {fileID: 2800000, guid: 6cb97e8f8b88d024d928efe13ee0a9be, type: 3}
-      name: pants
-    word: ant
-  - images:
-    - texture: {fileID: 2800000, guid: e542149f9b0f6be459c24bfa3090297b, type: 3}
-      name: pin
-    - texture: {fileID: 2800000, guid: 1d57cb9ee29dacd42bdf10f93b8695b0, type: 3}
-      name: pan
-    word: pan
-  - images:
-    - texture: {fileID: 2800000, guid: 89f57091e86218b41abc8d9278c574cc, type: 3}
-      name: tin
-    - texture: {fileID: 2800000, guid: dfa1083d8b7c39840a38106674bf77e6, type: 3}
-      name: Santa
-    word: Santa
-  - images:
-    - texture: {fileID: 2800000, guid: d96cfcc75bb39a948b8d051ec0fea044, type: 3}
-      name: ant
-    - texture: {fileID: 2800000, guid: 6cb97e8f8b88d024d928efe13ee0a9be, type: 3}
-      name: pants
-    word: pants
+  - name: incorrect
+    audioClip: {fileID: 8300000, guid: d01e2fed6ad436a4cb6104eb53dfbd72, type: 3}
 --- !u!1 &1789143865
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,11 +334,102 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1945503463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1945503465}
+  - component: {fileID: 1945503464}
+  m_Layer: 0
+  m_Name: TeachingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1945503464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945503463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e725100f77ae264ebd7da8d3d436f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teachingSequence:
+  - sequence:
+    - images:
+      - texture: {fileID: 2800000, guid: d96cfcc75bb39a948b8d051ec0fea044, type: 3}
+        name: ant
+      - texture: {fileID: 2800000, guid: dfa1083d8b7c39840a38106674bf77e6, type: 3}
+        name: Santa
+      word: ant
+    - images:
+      - texture: {fileID: 2800000, guid: 89f57091e86218b41abc8d9278c574cc, type: 3}
+        name: tin
+      - texture: {fileID: 2800000, guid: 6cb97e8f8b88d024d928efe13ee0a9be, type: 3}
+        name: pants
+      word: pants
+  - sequence:
+    - images:
+      - texture: {fileID: 2800000, guid: d96cfcc75bb39a948b8d051ec0fea044, type: 3}
+        name: ant
+      - texture: {fileID: 2800000, guid: dfa1083d8b7c39840a38106674bf77e6, type: 3}
+        name: Santa
+      word: Santa
+    - images:
+      - texture: {fileID: 2800000, guid: 89f57091e86218b41abc8d9278c574cc, type: 3}
+        name: tin
+      - texture: {fileID: 2800000, guid: 6cb97e8f8b88d024d928efe13ee0a9be, type: 3}
+        name: pants
+      word: tin
+  lessonData:
+    tasks:
+    - elements:
+      - images:
+        - texture: {fileID: 2800000, guid: d96cfcc75bb39a948b8d051ec0fea044, type: 3}
+          name: ant
+        - texture: {fileID: 2800000, guid: 1d57cb9ee29dacd42bdf10f93b8695b0, type: 3}
+          name: pan
+        words:
+        - ant
+      taskType: 0
+    - elements:
+      - images:
+        - texture: {fileID: 2800000, guid: 6cb97e8f8b88d024d928efe13ee0a9be, type: 3}
+          name: pants
+        - texture: {fileID: 2800000, guid: dfa1083d8b7c39840a38106674bf77e6, type: 3}
+          name: Santa
+        words:
+        - Santa
+      taskType: 0
+--- !u!4 &1945503465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945503463}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1789143867}
-  - {fileID: 1124580701}
   - {fileID: 807233495}
+  - {fileID: 1945503465}

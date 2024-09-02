@@ -10,14 +10,21 @@ public class AudioManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PictureSelectManager.onCorrect += PlaySound;
+        PictureSelect.onCorrect += PlaySound;
+        PictureSelect.onFalse += PlayIncorrectSound;
         ClickableLetter.onSelect += PlaySound;
     }
 
     private void OnDisable()
     {
-        PictureSelectManager.onCorrect -= PlaySound;
+        PictureSelect.onCorrect -= PlaySound;
+        PictureSelect.onFalse -= PlayIncorrectSound;
         ClickableLetter.onSelect -= PlaySound;
+    }
+
+    void PlayIncorrectSound()
+    {
+        PlaySound("incorrect");
     }
 
 
