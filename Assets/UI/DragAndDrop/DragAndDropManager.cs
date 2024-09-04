@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class DragAndDropManager : MonoBehaviour
+public class DragAndDrop : Lesson
 {
+    public static event Action onFinish;
     public static event Action<string> onCorrectWord;
-    [SerializeField] DragAndDropItem[] dragAndDropSequence;
+    private DragAndDropItem[] dragAndDropSequence;
     private int itemIndex = 0;
 
     private UIDocument uiDoc;
@@ -15,24 +17,57 @@ public class DragAndDropManager : MonoBehaviour
     VisualElement draggableLettersEl;
     VisualElement writingLinesEl;
     VisualElement imageEl;
-    VisualElement body;
+    VisualElement bodyEl;
     private DraggableLetter draggedElement;
     bool isDragging = false;
-
-    private string draggableLettersClassName = "draggable-letters";
-    private string writingLinesClassName = "writing-lines";
+    private bool isActive = false;
 
     private List<WritingLine> writingLines;
 
-    private void OnEnable()
+    public override void Activate(TaskData taskData)
     {
-        uiDoc = GetComponent<UIDocument>();
-        root = uiDoc.rootVisualElement;
-        draggableLettersEl = root.Q(className: draggableLettersClassName);
-        writingLinesEl = root.Q(className: writingLinesClassName);
-        imageEl = root.Q(className: "images");
-        body = root.Q(className: "body");
+        if (isActive) return;
 
+        dragAndDropSequence = taskData.elements.Select(t => {
+            return new DragAndDropItem(t.images[0].texture, t.letters, t.images[0].name);
+        }).ToArray();
+
+        BuildContainers();
+        BuildChallenge();
+
+        isActive = true;
+    }
+
+    public override void Deactivate()
+    {
+        if (!isActive) return;
+
+        bodyEl.Clear();
+
+        isActive = false;
+    }
+
+    void BuildContainers()
+    {
+        uiDoc = FindObjectOfType<UIDocument>();
+        root = uiDoc.rootVisualElement;
+        bodyEl = root.Q(className: "body");
+
+        writingLinesEl = new VisualElement();
+        writingLinesEl.AddToClassList("writing-lines");
+        bodyEl.Add(writingLinesEl);
+
+        imageEl = new VisualElement();
+        imageEl.AddToClassList("images");
+        bodyEl.Add(imageEl);
+
+        draggableLettersEl = new VisualElement();
+        draggableLettersEl.AddToClassList("draggable-letters");
+        bodyEl.Add(draggableLettersEl);
+    }
+
+    void BuildChallenge()
+    {
         CreateDraggableLetters();
         CreateWritingLines();
         CreateImage();
@@ -72,11 +107,9 @@ public class DragAndDropManager : MonoBehaviour
 
         var item = dragAndDropSequence[itemIndex];
 
-        ClickableImage image = new(item.word);
-        image.image = item.texture;
+        ClickableImage image = new(item.word, item.texture);
         imageEl.Add(image);
     }
-
 
     private void OnDragStart(PointerDownEvent evt, DraggableLetter letter)
     {
@@ -145,8 +178,8 @@ public class DragAndDropManager : MonoBehaviour
         float elementHeight = draggedElement.resolvedStyle.height;
 
         var clampedPos = new Vector2(
-            Math.Clamp(pos.x, body.worldBound.x + elementWidth / 2, body.worldBound.x + body.worldBound.width - elementWidth / 2),
-            Math.Clamp(pos.y, body.worldBound.y + elementHeight / 2, body.worldBound.y + body.worldBound.height - elementHeight / 2)
+            Math.Clamp(pos.x, bodyEl.worldBound.x + elementWidth / 2, bodyEl.worldBound.x + bodyEl.worldBound.width - elementWidth / 2),
+            Math.Clamp(pos.y, bodyEl.worldBound.y + elementHeight / 2, bodyEl.worldBound.y + bodyEl.worldBound.height - elementHeight / 2)
         );
 
         var adjustedPos = new Vector2(
@@ -173,18 +206,33 @@ public class DragAndDropManager : MonoBehaviour
         if (joinedWord == dragAndDropSequence[itemIndex].word)
         {
             Debug.Log("VICTORY");
+            OnCorrectAnswer();
+        }
+    }
+
+    void OnCorrectAnswer()
+    {
+        if (itemIndex < dragAndDropSequence.Length - 1)
+        {
             onCorrectWord?.Invoke(dragAndDropSequence[itemIndex].word);
             StartCoroutine("WinRoutine");
+        } else
+        {
+            OnFinishSequence();
         }
+
+    }
+    void OnFinishSequence()
+    {
+        Deactivate();
+        onFinish?.Invoke();
     }
 
     void ResetGame()
     {
         itemIndex++;
 
-        CreateDraggableLetters();
-        CreateWritingLines();
-        CreateImage();
+        BuildChallenge();
     }
 
     private WritingLine GetTarget(DraggableLetter draggedLetter)

@@ -20,6 +20,7 @@ public class TaskElementData
 {
     public ImageData[] images;
     public string[] words;
+    public string[] letters;
 }
 
 [System.Serializable]
