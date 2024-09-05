@@ -62,13 +62,13 @@ public class PictureSelect: Lesson
         root = uiDoc.rootVisualElement;
         bodyEl = root.Q(className: "body");
 
-        imageEl = new VisualElement();
-        imageEl.AddToClassList("selectable-images");
-        bodyEl.Add(imageEl);
-
         wordEl = new VisualElement();
         wordEl.AddToClassList("word");
         bodyEl.Add(wordEl);
+
+        imageEl = new VisualElement();
+        imageEl.AddToClassList("selectable-images");
+        bodyEl.Add(imageEl);
     }
 
     void CreateTargetWord() {
