@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxYposition = 0;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float minDistance = 0.4f;
+    [SerializeField] private float normalizedDirMultiplier = 10;
+    [SerializeField] private float maxVelocity = 10;
     private Vector2 targetPos;
     private PlayerState currentState = PlayerState.Inactive;
     private Rigidbody2D rb;
@@ -49,10 +51,8 @@ public class PlayerController : MonoBehaviour
 
         if (dir.magnitude > minDistance)
         {
-            //rb.velocity = dir.normalized * speed;
-            // Smooth the velocity towards the target with a lerp for smoother motion
-            //Vector2 desiredVelocity =  Mathf.Lerp(speed, 0, dir.magnitude / minDistance);
-            rb.velocity = Vector2.Lerp(rb.velocity, dir + (dir.normalized * 10) * speed, 0.1f);  // Interpolate for smoother movement
+            rb.velocity = Vector2.Lerp(rb.velocity, dir + (dir.normalized * normalizedDirMultiplier) * speed, 0.1f);  // Interpolate for smoother movement
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxVelocity);
         }
         else
         {
