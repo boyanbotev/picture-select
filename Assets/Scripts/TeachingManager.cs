@@ -13,12 +13,12 @@ public class TeachingManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PictureSelect.onFinish += GoToNext;
+        Lesson.onFinish += GoToNext;
     }
 
     private void OnDisable()
     {
-        PictureSelect.onFinish -= GoToNext;
+        Lesson.onFinish -= GoToNext;
     }
 
     private void Start()
@@ -76,7 +76,7 @@ public class TeachingManager : MonoBehaviour
             LoadTask();
         }
     }
-    
+
     void LoadTask()
     {
         var lessonComponent = GetLessonComponent(lessonData.tasks[itemIndex].taskType);

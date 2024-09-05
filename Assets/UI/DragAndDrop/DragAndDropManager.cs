@@ -7,10 +7,8 @@ using UnityEngine.UIElements;
 
 public class DragAndDrop : Lesson
 {
-    public static event Action onFinish;
     public static event Action<string> onCorrectWord;
     private DragAndDropItem[] dragAndDropSequence;
-    private int itemIndex = 0;
 
     private UIDocument uiDoc;
     VisualElement root;
@@ -66,7 +64,7 @@ public class DragAndDrop : Lesson
         bodyEl.Add(draggableLettersEl);
     }
 
-    void BuildChallenge()
+    protected override void BuildChallenge()
     {
         CreateDraggableLetters();
         CreateWritingLines();
@@ -205,12 +203,11 @@ public class DragAndDrop : Lesson
 
         if (joinedWord == dragAndDropSequence[itemIndex].word)
         {
-            Debug.Log("VICTORY");
             OnCorrectAnswer();
         }
     }
 
-    void OnCorrectAnswer()
+    protected override void OnCorrectAnswer()
     {
         if (itemIndex < dragAndDropSequence.Length - 1)
         {
@@ -221,18 +218,6 @@ public class DragAndDrop : Lesson
             OnFinishSequence();
         }
 
-    }
-    void OnFinishSequence()
-    {
-        Deactivate();
-        onFinish?.Invoke();
-    }
-
-    void ResetGame()
-    {
-        itemIndex++;
-
-        BuildChallenge();
     }
 
     private WritingLine GetTarget(DraggableLetter draggedLetter)
@@ -264,11 +249,5 @@ public class DragAndDrop : Lesson
         Rect rect1 = new(a.worldBound.position, a.worldBound.size);
         Rect rect2 = new(b.worldBound.position, b.worldBound.size);
         return rect1.Overlaps(rect2);
-    }
-
-    private IEnumerator WinRoutine()
-    {
-        yield return new WaitForSeconds(0.5f);
-        ResetGame();
     }
 }

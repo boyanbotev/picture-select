@@ -7,14 +7,11 @@ using UnityEngine.UIElements;
 
 public class PictureSelect: Lesson
 {
-    public static event Action onFinish;
     public static event Action<string> onCorrect;
     public static event Action onFalse;
     private bool isActive = false;
 
     [SerializeField] PictureSelectChallenge[] pictureSelectSequence;
-    private TaskElementData[] taskSequence;
-    private int itemIndex = 0;
     private UIDocument uiDoc;
     VisualElement root;
 
@@ -53,7 +50,7 @@ public class PictureSelect: Lesson
         isActive = false;
     }
 
-    void BuildChallenge() {
+    protected override void BuildChallenge() {
         currentChallenge = pictureSelectSequence[itemIndex];
 
         CreateTargetWord();
@@ -99,45 +96,26 @@ public class PictureSelect: Lesson
 
     void OnImageSelect(string word) {
         if (word == currentChallenge.word) {
-            Debug.Log("VICTORY");
             OnCorrectAnswer();
         }
         else {
-            Debug.Log("INCORRECT");
             OnIncorrectAnswer();
         }
     }
 
-    void OnCorrectAnswer() {
+    protected override void OnCorrectAnswer() {
         onCorrect?.Invoke(currentChallenge.word);
 
         if (itemIndex < pictureSelectSequence.Length - 1) {
             StartCoroutine(WinRoutine());
         }
         else {
-            Debug.Log("FINISH SEQUENCE");
             OnFinishSequence();
         }
-    }
-
-    void OnFinishSequence() {
-        Deactivate();
-        Reset();
-        onFinish?.Invoke();
     }
 
     void OnIncorrectAnswer() {
         // TODO: shake item
         onFalse?.Invoke();
-    }
-
-    void Reset() {
-        itemIndex = 0;
-    }
-
-    private IEnumerator WinRoutine() {
-        yield return new WaitForSeconds(0.5f);
-        itemIndex++;
-        BuildChallenge();
     }
 }
