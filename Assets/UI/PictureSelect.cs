@@ -110,7 +110,7 @@ public class PictureSelect: Lesson
             StartCoroutine(WinRoutine());
         }
         else {
-            OnFinishSequence();
+            StartCoroutine(FinishRoutine());
         }
     }
 

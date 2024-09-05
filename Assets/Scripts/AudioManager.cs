@@ -13,6 +13,8 @@ public class AudioManager : MonoBehaviour
         PictureSelect.onCorrect += PlaySound;
         PictureSelect.onFalse += PlayIncorrectSound;
         ClickableLetter.onSelect += PlaySound;
+        DragAndDrop.onCorrectWord += PlaySound;
+        DraggableLetter.onSelect += PlaySound;
     }
 
     private void OnDisable()
@@ -20,6 +22,8 @@ public class AudioManager : MonoBehaviour
         PictureSelect.onCorrect -= PlaySound;
         PictureSelect.onFalse -= PlayIncorrectSound;
         ClickableLetter.onSelect -= PlaySound;
+        DragAndDrop.onCorrectWord -= PlaySound;
+        DraggableLetter.onSelect -= PlaySound;
     }
 
     void PlayIncorrectSound()

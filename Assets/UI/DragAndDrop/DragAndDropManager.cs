@@ -209,13 +209,14 @@ public class DragAndDrop : Lesson
 
     protected override void OnCorrectAnswer()
     {
+        onCorrectWord?.Invoke(dragAndDropSequence[itemIndex].word);
+
         if (itemIndex < dragAndDropSequence.Length - 1)
         {
-            onCorrectWord?.Invoke(dragAndDropSequence[itemIndex].word);
             StartCoroutine("WinRoutine");
         } else
         {
-            OnFinishSequence();
+            StartCoroutine(FinishRoutine());
         }
 
     }

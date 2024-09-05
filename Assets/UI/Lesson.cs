@@ -32,6 +32,12 @@ public abstract class Lesson : MonoBehaviour
         itemIndex++;
         BuildChallenge();
     }
+
+    protected virtual IEnumerator FinishRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        OnFinishSequence();
+    }
 }
 
 public enum TaskType
