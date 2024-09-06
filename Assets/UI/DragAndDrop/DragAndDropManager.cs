@@ -237,6 +237,7 @@ public class DragAndDrop : Lesson
         return target;
     }
 
+    // TODO: move into DrggableLetter?
     private void ResetLetter(DraggableLetter draggedLetter)
     {
         draggedLetter.style.left = 0;
