@@ -14,6 +14,7 @@ enum PlayerState
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float maxYposition = 0;
+    [SerializeField] private float minYposition = -20;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float minDistance = 0.4f;
     [SerializeField] private float normalizedDirMultiplier = 10;
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        var clampedPos = new Vector2(targetPos.x, Mathf.Clamp(targetPos.y, targetPos.y, maxYposition));
+        var clampedPos = new Vector2(targetPos.x, Mathf.Clamp(targetPos.y, minYposition, maxYposition));
 
         var dir = new Vector2(clampedPos.x - transform.position.x, clampedPos.y - transform.position.y);
 
