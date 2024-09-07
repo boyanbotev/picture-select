@@ -8,7 +8,8 @@ using UnityEngine;
 enum PlayerState
 {
     Active,
-    Inactive
+    Inactive,
+    Fighting
 }
 
 public class PlayerController : MonoBehaviour
@@ -22,19 +23,22 @@ public class PlayerController : MonoBehaviour
     private Vector2 targetPos;
     private PlayerState currentState = PlayerState.Inactive;
     private Rigidbody2D rb;
+    private Camera mainCamera;
+    TeachingManager teachingManager;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        mainCamera = Camera.main;
+        teachingManager = FindObjectOfType<TeachingManager>();
     }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            currentState = PlayerState.Active;
-            targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            HandleInput();
         }
-
     }
     void FixedUpdate()
     {
@@ -60,5 +64,39 @@ public class PlayerController : MonoBehaviour
             rb.velocity = Vector2.zero;
             currentState = PlayerState.Inactive;
         }
+    }
+
+    private void HandleInput()
+    {
+        Vector3 inputPosition;
+
+        inputPosition = Input.mousePosition;
+
+        if (currentState == PlayerState.Inactive)
+        {
+            currentState = PlayerState.Active;
+            targetPos = Camera.main.ScreenToWorldPoint(inputPosition);
+        }
+
+        var rayHit = Physics2D.GetRayIntersection(mainCamera.ScreenPointToRay(inputPosition));
+        if (rayHit.collider) OnClick(rayHit.collider.gameObject);
+    }
+
+    private void OnClick(GameObject gameObject)
+    {
+        Debug.Log(gameObject);
+
+        LessonObject lessonObject = gameObject.GetComponent<LessonObject>();
+
+        if (lessonObject != null)
+        {
+            teachingManager.Activate(lessonObject.lessonData);
+            currentState = PlayerState.Fighting;
+        }
+    }
+
+    public void Reset()
+    {
+        currentState = PlayerState.Inactive;
     }
 }
