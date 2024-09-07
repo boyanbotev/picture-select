@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
         inputPosition = Input.mousePosition;
 
-        if (currentState == PlayerState.Inactive)
+        if (currentState != PlayerState.Fighting)
         {
             currentState = PlayerState.Active;
             targetPos = Camera.main.ScreenToWorldPoint(inputPosition);
