@@ -87,11 +87,17 @@ public class PlayerController : MonoBehaviour
         Debug.Log(gameObject);
 
         LessonObject lessonObject = gameObject.GetComponent<LessonObject>();
+        FlyingLetterController flyingLetterController = gameObject.GetComponent<FlyingLetterController>();
 
         if (lessonObject != null)
         {
             teachingManager.Activate(lessonObject.lessonData);
             currentState = PlayerState.Fighting;
+        } 
+        else if (flyingLetterController != null)
+        {
+            Destroy(flyingLetterController.gameObject);
+            targetPos = transform.position;
         }
     }
 
