@@ -20,11 +20,36 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float minDistance = 0.4f;
     [SerializeField] private float normalizedDirMultiplier = 10;
     [SerializeField] private float maxVelocity = 10;
+    [SerializeField] private float fireSpeed = 10;
+    [SerializeField] GameObject projectilePrefab;
     private Vector2 targetPos;
     private PlayerState currentState = PlayerState.Inactive;
     private Rigidbody2D rb;
     private Camera mainCamera;
     TeachingManager teachingManager;
+
+    private void OnEnable()
+    {
+        PictureSelect.onCorrect += FireAtEnemy;
+        DragAndDrop.onCorrectWord += FireAtEnemy; // TODO: make these one event in Lesson? - _ -
+        TeachingManager.OnStart += SetAsFighting;
+    }
+
+    private void OnDisable()
+    {
+        PictureSelect.onCorrect -= FireAtEnemy;
+        DragAndDrop.onCorrectWord -= FireAtEnemy;
+        TeachingManager.OnStart -= SetAsFighting;
+    }
+
+    public void SetAsFighting()
+    {
+        currentState = PlayerState.Fighting;
+    }
+    void FireAtEnemy(string word)
+    {
+        Fire(FindObjectOfType<EnemyController>().transform.position);
+    }
 
     private void Awake()
     {
@@ -39,7 +64,30 @@ public class PlayerController : MonoBehaviour
         {
             HandleInput();
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        }
     }
+
+    // fire green blob
+    public void Fire(Vector2? target)
+    {
+        Vector2 fireTargetPos;
+        if (target != null)
+        {
+            fireTargetPos = target.Value;
+        } 
+        else
+        {
+            fireTargetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        }
+
+        Vector2 fireDir = new(fireTargetPos.x - transform.position.x, fireTargetPos.y - transform.position.y);
+        var projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+        projectile.GetComponent<Rigidbody2D>().velocity = fireDir.normalized * fireSpeed;
+    }
+
     void FixedUpdate()
     {
         if (currentState == PlayerState.Active)
@@ -68,17 +116,13 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInput()
     {
-        Vector3 inputPosition;
-
-        inputPosition = Input.mousePosition;
-
         if (currentState != PlayerState.Fighting)
         {
             currentState = PlayerState.Active;
-            targetPos = Camera.main.ScreenToWorldPoint(inputPosition);
+            targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        var rayHit = Physics2D.GetRayIntersection(mainCamera.ScreenPointToRay(inputPosition));
+        var rayHit = Physics2D.GetRayIntersection(mainCamera.ScreenPointToRay(Input.mousePosition));
         if (rayHit.collider) OnClick(rayHit.collider.gameObject);
     }
 

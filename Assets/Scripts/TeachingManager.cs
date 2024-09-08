@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class TeachingManager : MonoBehaviour
 {
+    public static event Action OnStart;
     [SerializeField] LessonData lessonData;
     PictureSelect pictureSelect;
     DragAndDrop dragAndDrop;
@@ -39,6 +40,8 @@ public class TeachingManager : MonoBehaviour
 
         this.lessonData = lessonData;
         LoadTask();
+
+        OnStart?.Invoke();
 
         isActive = true;
     }

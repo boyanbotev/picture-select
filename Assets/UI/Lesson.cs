@@ -46,6 +46,11 @@ public enum TaskType
     DragAndDrop,
 }
 
+public enum LessonType {
+    Lesson,
+    Fight,
+}
+
 
 [System.Serializable]
 public class TaskElementData
@@ -66,5 +71,6 @@ public class TaskData
 public class LessonData
 {
     public TaskData[] tasks;
+    public LessonType lessonType;
 }
 
