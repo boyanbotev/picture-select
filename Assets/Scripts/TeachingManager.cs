@@ -9,6 +9,7 @@ public class TeachingManager : MonoBehaviour
 {
     public static event Action OnStart;
     [SerializeField] LessonData lessonData;
+    [SerializeField] bool transparentTheme = true;
     PictureSelect pictureSelect;
     DragAndDrop dragAndDrop;
     private int itemIndex = 0;
@@ -51,6 +52,7 @@ public class TeachingManager : MonoBehaviour
         // Create the main container (equivalent to <ui:VisualElement class="main">)
         VisualElement main = new VisualElement();
         main.AddToClassList("main");
+        if (!transparentTheme) main.AddToClassList("non-transparent");
 
         // Create the sections container (equivalent to <ui:VisualElement class="sections">)
         VisualElement sections = new VisualElement();
