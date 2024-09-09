@@ -1,15 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+enum Theme
+{
+    Light,
+    Beige,
+    Transparent,
+}
 
 public class TeachingManager : MonoBehaviour
 {
     public static event Action OnStart;
     [SerializeField] LessonData lessonData;
-    [SerializeField] bool transparentTheme = true;
+    [SerializeField] Theme currentTheme = Theme.Transparent;
     PictureSelect pictureSelect;
     DragAndDrop dragAndDrop;
     private int itemIndex = 0;
@@ -52,7 +60,8 @@ public class TeachingManager : MonoBehaviour
         // Create the main container (equivalent to <ui:VisualElement class="main">)
         VisualElement main = new VisualElement();
         main.AddToClassList("main");
-        if (!transparentTheme) main.AddToClassList("non-transparent");
+        if (currentTheme == Theme.Beige) main.AddToClassList("beige-theme");
+        else if (currentTheme == Theme.Light) main.AddToClassList("light-theme");
 
         // Create the sections container (equivalent to <ui:VisualElement class="sections">)
         VisualElement sections = new VisualElement();

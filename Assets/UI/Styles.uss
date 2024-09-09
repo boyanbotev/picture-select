@@ -18,8 +18,16 @@
     border-radius: 50px;
 }
 
-.non-transparent {
+.transparent-theme: {
+  --theme-colour: var(--cream-dark-transparent);
+}
+
+.beige-theme {
     --theme-colour: var(--cream-dark);
+}
+
+.light-theme: {
+    --theme-colour: var(--cream-light);
 }
 
 .header, .footer {

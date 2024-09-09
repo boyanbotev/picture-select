@@ -1240,7 +1240,7 @@ MonoBehaviour:
         letters: []
       taskType: 0
     lessonType: 0
-  transparentTheme: 0
+  currentTheme: 1
 --- !u!4 &1137031967
 Transform:
   m_ObjectHideFlags: 0
