@@ -39,6 +39,7 @@ public class TeachingManager : MonoBehaviour
     {
         uiDoc = FindObjectOfType<UIDocument>();
         root = uiDoc.rootVisualElement;
+        Application.targetFrameRate = 60;
     }
 
     public void Activate(LessonData lessonData)

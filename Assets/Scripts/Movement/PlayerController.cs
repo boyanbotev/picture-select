@@ -103,8 +103,7 @@ public class PlayerController : MonoBehaviour
 
         if (dir.magnitude > minDistance)
         {
-            rb.velocity = Vector2.Lerp(rb.velocity, dir + (dir.normalized * normalizedDirMultiplier) * speed, 0.1f);  // Interpolate for smoother movement
-            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxVelocity);
+            rb.velocity = Vector2.ClampMagnitude(Vector2.Lerp(rb.velocity, dir + (dir.normalized * normalizedDirMultiplier) * speed, 0.1f), maxVelocity);
         }
         else
         {

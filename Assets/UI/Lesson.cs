@@ -12,10 +12,10 @@ public abstract class Lesson : MonoBehaviour
     public abstract void Deactivate();
     protected abstract void BuildChallenge();
 
-    // Should call OnFinishSequence when appropriate
     protected virtual void OnCorrectAnswer(string word)
     {
         onCorrect?.Invoke(word);
+        // Should call OnFinishSequence when appropriate
     }
 
     protected void Reset()
