@@ -1,8 +1,9 @@
 :root {
     --cream-light: rgba(254, 255, 227, 1);
     --cream-transparent: rgba(254, 255, 227, 0.4);
-    --cream--semi-transparent: rgba(254, 255, 227, 0.8);
+    --cream-semi-transparent: rgba(254, 255, 227, 0.8);
     --cream-dark: rgb(223, 223, 174);
+    --cream-dark-transparent: rgba(223, 223, 174, 0.7);
 
     --font-size: 30px;
 }
@@ -17,8 +18,8 @@
 }
 
 .header, .footer {
-    background-color: var(--cream-dark);
-    border-color: var(--cream-dark);
+    background-color: var(--cream-dark-transparent);
+    border-color: var(--cream-dark-transparent);
 }
 
 .header {
@@ -27,14 +28,14 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     height: 20px;
-    border-bottom-width: 2px;
+    /*border-bottom-width: 2px;*/
 }
 
 .body {
     flex: 1;
     align-items: center;
     justify-content: center;
-    background-color: var(--cream-dark);
+    background-color: var(--cream-dark-transparent);
 }
 
 .footer {
@@ -46,7 +47,7 @@
     padding-right: 24px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    border-top-width: 2px;
+    /*border-top-width: 2px;*/
 }
 
 .sections {
@@ -77,7 +78,9 @@
 .word {
     flex-direction: row;
     font-size: var(--font-size);
-    -unity-font-definition: url('project:/Assets/Fonts/Helvetica SDF.asset'); 
+    -unity-font-definition: url('project:/Assets/Fonts/Helvetica SDF.asset');
+    background-color: var(--cream-light);
+    margin-bottom: 20px;
 }
 
 .selectable-images {
@@ -90,8 +93,8 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-width: 10px;
-    border-color: var(--cream-dark);
-    background-color: var(--cream-dark);
+    border-color: var(--cream-dark-transparent);
+    background-color: var(--cream-dark-transparent);
 }
 
 .images {
