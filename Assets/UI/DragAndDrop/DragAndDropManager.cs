@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 
 public class DragAndDrop : Lesson
 {
-    public static event Action<string> onCorrectWord;
     private DragAndDropItem[] dragAndDropSequence;
 
     private UIDocument uiDoc;
@@ -203,13 +202,13 @@ public class DragAndDrop : Lesson
 
         if (joinedWord == dragAndDropSequence[itemIndex].word)
         {
-            OnCorrectAnswer();
+            OnCorrectAnswer(dragAndDropSequence[itemIndex].word);
         }
     }
 
-    protected override void OnCorrectAnswer()
+    protected override void OnCorrectAnswer(string word)
     {
-        onCorrectWord?.Invoke(dragAndDropSequence[itemIndex].word);
+        base.OnCorrectAnswer(word);
 
         if (itemIndex < dragAndDropSequence.Length - 1)
         {

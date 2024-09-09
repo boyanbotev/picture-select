@@ -6,13 +6,17 @@ using UnityEngine;
 public abstract class Lesson : MonoBehaviour
 {
     public static event Action onFinish;
+    public static event Action<string> onCorrect;
     public int itemIndex = 0;
     public abstract void Activate(TaskData taskData);
     public abstract void Deactivate();
     protected abstract void BuildChallenge();
 
     // Should call OnFinishSequence when appropriate
-    protected abstract void OnCorrectAnswer();
+    protected virtual void OnCorrectAnswer(string word)
+    {
+        onCorrect?.Invoke(word);
+    }
 
     protected void Reset()
     {

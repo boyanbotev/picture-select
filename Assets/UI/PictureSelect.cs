@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 
 public class PictureSelect: Lesson
 {
-    public static event Action<string> onCorrect;
     public static event Action onFalse;
     private bool isActive = false;
 
@@ -96,15 +95,15 @@ public class PictureSelect: Lesson
 
     void OnImageSelect(string word) {
         if (word == currentChallenge.word) {
-            OnCorrectAnswer();
+            OnCorrectAnswer(currentChallenge.word);
         }
         else {
             OnIncorrectAnswer();
         }
     }
 
-    protected override void OnCorrectAnswer() {
-        onCorrect?.Invoke(currentChallenge.word);
+    protected override void OnCorrectAnswer(string word) {
+        base.OnCorrectAnswer(word);
 
         if (itemIndex < pictureSelectSequence.Length - 1) {
             StartCoroutine(WinRoutine());

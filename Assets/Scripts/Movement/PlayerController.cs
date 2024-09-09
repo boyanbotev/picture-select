@@ -30,15 +30,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        PictureSelect.onCorrect += FireAtEnemy;
-        DragAndDrop.onCorrectWord += FireAtEnemy; // TODO: make these one event in Lesson? - _ -
+        Lesson.onCorrect += FireAtEnemy;
         TeachingManager.OnStart += SetAsFighting;
     }
 
     private void OnDisable()
     {
-        PictureSelect.onCorrect -= FireAtEnemy;
-        DragAndDrop.onCorrectWord -= FireAtEnemy;
+        Lesson.onCorrect -= FireAtEnemy;
         TeachingManager.OnStart -= SetAsFighting;
     }
 
@@ -48,7 +46,8 @@ public class PlayerController : MonoBehaviour
     }
     void FireAtEnemy(string word)
     {
-        Fire(FindObjectOfType<EnemyController>().transform.position);
+        var enemy = FindObjectOfType<EnemyController>();
+        if (enemy != null) Fire(enemy.transform.position);
     }
 
     private void Awake()
