@@ -5,16 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Movement.unity
-    guid: 5893cd180314d634d93ea1b99e058438
-  - enabled: 0
-    path: Assets/Scenes/PictureSelect.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/Catch Flying Letters.unity
     guid: 43d25da34f4cddd42ab2cc43091da809
   - enabled: 1
+    path: Assets/Scenes/playy.unity
+    guid: 0157a2673f101eb46b1f302d4449f6f7
+  - enabled: 1
     path: Assets/Scenes/playy 1.unity
     guid: a1f9dc3a69308b94b9b8e91c6235cd03
+  - enabled: 1
+    path: Assets/Scenes/playy 2.unity
+    guid: 397ac8de07932e448bbd1685e3311bc8
   m_configObjects: {}

@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private float speed = 1f;
     [SerializeField] private int health = 5;
+    [SerializeField] private bool overrideHealth = false;
     [SerializeField] private TextMeshPro healthDisplay;
 
     private void Awake()
@@ -36,7 +37,7 @@ public class EnemyController : MonoBehaviour
 
     public void Activate(int? health)
     {
-        if (health != null)
+        if (health != null && !overrideHealth)
         {
             this.health = health.Value;
         }
@@ -54,6 +55,7 @@ public class EnemyController : MonoBehaviour
         if (dir.magnitude <= minAttackDistance)
         {
             state = EnemyState.Attacking;
+            Debug.Log("Game over fam");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else if (dir.magnitude <= minApproachDistance)
