@@ -46,8 +46,9 @@ public class PlayerController : MonoBehaviour
     }
     void FireAtEnemy(string word)
     {
-        var enemy = FindObjectOfType<EnemyController>();
-        if (enemy != null) Fire(enemy.transform.position);
+        var enemyTransform = FindObjectOfType<EnemyController>()?.transform;
+        if (enemyTransform == null) enemyTransform = FindObjectOfType<ArcJumpingController>()?.transform;
+        if (enemyTransform != null) Fire(enemyTransform.position);
     }
 
     private void Awake()
