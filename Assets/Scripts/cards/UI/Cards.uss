@@ -1,0 +1,24 @@
+.main {
+    flex-grow: 1;
+}
+
+.cards {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.card {
+    background-color: white;
+    width: 100px;
+    height: 140px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+
+.card Label {
+    font-size: 42px;
+}
