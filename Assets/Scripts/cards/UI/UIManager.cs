@@ -37,8 +37,11 @@ public class UIManager : MonoBehaviour
 
         var label = new Label();
         label.text = word;
+        label.AddToClassList("cardLabel");
+        label.pickingMode = PickingMode.Position;
 
         card.Add(label);
+        card.pickingMode = PickingMode.Position;
         cards.Add(card);
 
         card.RegisterCallback<PointerDownEvent>(evt => OnCardClick(evt, card, word));
@@ -47,6 +50,12 @@ public class UIManager : MonoBehaviour
     void OnCardClick(PointerDownEvent evt, VisualElement card, string word)
     {
         onCardUsed?.Invoke(word);
+        StartCoroutine(RemoveCardRoutine(card));
+    }
+
+    IEnumerator RemoveCardRoutine(VisualElement card)
+    {
+        yield return new WaitForSeconds(0.01f);
         cards.Remove(card);
     }
  }

@@ -55,10 +55,11 @@ public class Enemy : MonoBehaviour
         {
             if (textUI?.text == word)
             {
+                Destroy(collision.gameObject);
                 Destroy(gameObject);
             } else
             {
-                //Destroy(collision.gameObject);
+                
             }
         }
 

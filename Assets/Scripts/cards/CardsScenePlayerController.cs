@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class CardsScenePlayerController : MonoBehaviour
 {
@@ -10,9 +12,22 @@ public class CardsScenePlayerController : MonoBehaviour
     [SerializeField] float fireSpeed;
     Camera mainCamera;
 
+    [SerializeField] private float minDistance = 0.4f;
+    [SerializeField] private float normalizedDirMultiplier = 10;
+    [SerializeField] private float maxVelocity = 10;
+    [SerializeField] private float speed = 10;
+    private Vector2 targetPos;
+    private Rigidbody2D rb;
+    private PlayerState currentState = PlayerState.Inactive;
+    private UIDocument uiDoc;
+    private VisualElement rootEl;
+
     private void Awake()
     {
         mainCamera = Camera.main;
+        rb = GetComponent<Rigidbody2D>();
+        uiDoc = FindObjectOfType<UIDocument>();
+        rootEl = uiDoc.rootVisualElement;
     }
 
     private void OnEnable()
@@ -30,7 +45,23 @@ public class CardsScenePlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             var rayHit = Physics2D.GetRayIntersection(mainCamera.ScreenPointToRay(Input.mousePosition), Mathf.Infinity, LayerMask.GetMask("Collectable"));
-            if (rayHit.collider) OnClick(rayHit.collider.gameObject);
+            if (rayHit.collider)
+            {
+                OnClick(rayHit.collider.gameObject);
+            }
+            else if (!IsPointerOverUIWithClass("card"))
+            {
+                currentState = PlayerState.Active;
+                targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentState == PlayerState.Active)
+        {
+            Move();
         }
     }
 
@@ -81,5 +112,49 @@ public class CardsScenePlayerController : MonoBehaviour
         }
 
         return closestElement;
+    }
+
+    private void Move()
+    {
+        var dir = new Vector2(targetPos.x - transform.position.x, targetPos.y - transform.position.y);
+
+        if (dir.magnitude > minDistance)
+        {
+            rb.velocity = Vector2.ClampMagnitude(Vector2.Lerp(rb.velocity, dir + (dir.normalized * normalizedDirMultiplier) * speed, 0.1f), maxVelocity);
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+            currentState = PlayerState.Inactive;
+        }
+    }
+
+    private bool IsPointerOverUIWithClass(string className)
+    {
+        Vector2 mousePosition = Input.mousePosition;
+
+        VisualElement[] cards = rootEl.Q(className: "cards").Children().ToArray();
+        Debug.Log(cards);
+
+        if (cards != null)
+        {
+            foreach (var card in cards)
+            {
+                if (IsInsideElement(card, RuntimePanelUtils.CameraTransformWorldToPanel(rootEl.panel, Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main)))
+                {
+                    Debug.Log("found");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsInsideElement(VisualElement v, Vector2 pos)
+    {
+        Debug.Log(v.worldBound + "" + pos);
+
+        return v.worldBound.Contains(pos);
     }
 }

@@ -64,13 +64,12 @@ public class CardsGameManager : MonoBehaviour
 
         foreach (var letter in letters)
         {
-            var spawnPos = GetRandomPositionAwayFromPlayer();
+            var spawnPos = GetRandomPosition();
 
             var letterObject = Instantiate(letterPrefab, spawnPos, Quaternion.identity, parentObject.transform);
             SpriteRenderer renderer = letterObject.GetComponent<SpriteRenderer>();
 
             var data = letterData.FirstOrDefault(data => data.letter == letter.ToString());
-            Debug.Log("letter: " + letter + "  , data: " + data);
             var texture = data.image;
             SetImage(renderer, texture);
             renderer.color = randomColor;
@@ -113,10 +112,10 @@ public class CardsGameManager : MonoBehaviour
     bool IsWithinInnerBounds(Vector2 position, Vector2 innerBounds, Vector2 playerPosition)
     {
         // Check if the position is inside the inner bounds
-        return position.x < innerBounds.x &&
-               position.x > -innerBounds.x &&
-               position.y < innerBounds.y &&
-               position.y > -innerBounds.y;
+        return position.x < innerBounds.x + playerPosition.x &&
+               position.x > -innerBounds.x + playerPosition.x &&
+               position.y < innerBounds.y + playerPosition.y &&
+               position.y > -innerBounds.y + playerPosition.y;
     }
 
     void SetImage(SpriteRenderer renderer, Texture2D texture)
