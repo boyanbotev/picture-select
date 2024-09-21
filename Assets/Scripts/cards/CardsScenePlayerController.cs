@@ -29,7 +29,7 @@ public class CardsScenePlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            var rayHit = Physics2D.GetRayIntersection(mainCamera.ScreenPointToRay(Input.mousePosition));
+            var rayHit = Physics2D.GetRayIntersection(mainCamera.ScreenPointToRay(Input.mousePosition), Mathf.Infinity, LayerMask.GetMask("Collectable"));
             if (rayHit.collider) OnClick(rayHit.collider.gameObject);
         }
     }
