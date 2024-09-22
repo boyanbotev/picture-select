@@ -1,3 +1,15 @@
+:root {
+    --cream-light: rgba(254, 255, 227, 1);
+    --cream-transparent: rgba(254, 255, 227, 0.4);
+    --cream-semi-transparent: rgba(254, 255, 227, 0.8);
+    --cream-dark: rgb(223, 223, 174);
+    --cream-dark-transparent: rgba(223, 223, 174, 0.7);
+    --theme-colour: var(--cream-dark-transparent);
+
+    --font-size: 30px;
+}
+
+
 .main {
     flex-grow: 1;
 }
@@ -6,12 +18,13 @@
     flex-grow: 1;
     flex-direction: row;
     align-items: flex-end;
+    height: 80%;
 }
 
 .card {
     background-color: white;
-    width: 100px;
-    height: 140px;
+    width: 200px;
+    height: 160px;
     align-items: center;
     justify-content: center;
     margin-left: 10px;
@@ -19,6 +32,50 @@
     border-radius: 20px;
 }
 
+.writing-lines {
+    flex-direction: row;
+}
+
+.writing-line {
+    align-items: center;
+    justify-content: flex-end;
+
+    border-radius: 10px;
+    border-width: 2px;
+    height: 80px;
+}
+
 .card Label {
     font-size: 42px;
+}
+
+.letters {
+    flex-direction: row;
+}
+
+.draggable-letter {
+    border-radius: 10px;
+    border-width: 2px;
+    padding: 0 0px;
+    border-color: var(--cream-dark);
+    background-color: var(--cream-light);
+    margin: 2%;
+}
+
+.draggable-letter Label {
+    font-size: var(--font-size);
+    -unity-font-definition: url('project:/Assets/Fonts/Helvetica SDF.asset'); 
+    -unity-text-align: middle-center;
+}
+
+.horizontal-line {
+    height: 4px;
+    background-color: black;
+    width: 36px;
+    margin: 4px;
+}
+
+.image {
+    height: 50px;
+    width: 50px;
 }

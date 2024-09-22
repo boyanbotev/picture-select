@@ -28,7 +28,7 @@ public class CardsGameManager : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] Vector2 bounds;
     [SerializeField] Vector2 safeBounds;
-    private float gap = 6f;
+    private float gap = 8f;
     private float minGap = 3.5f;
     private float decrementAmount = 0.1f;
 
@@ -39,6 +39,11 @@ public class CardsGameManager : MonoBehaviour
         SpawnLetters(word);
 
         StartCoroutine(SpawnRoutine());
+    }
+
+    public Texture2D GetImageCorrespondingToWord(string word)
+    {
+        return words.FirstOrDefault(x => x.word == word).enemy;
     }
 
     void SpawnEnemy(WordData wordData)
@@ -73,6 +78,8 @@ public class CardsGameManager : MonoBehaviour
             var texture = data.image;
             SetImage(renderer, texture);
             renderer.color = randomColor;
+
+            letterObject.GetComponent<CollectableLetter>().letter = letter.ToString();
         }
 
 

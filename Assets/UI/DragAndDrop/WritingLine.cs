@@ -36,3 +36,38 @@ public class WritingLine : VisualElement
         letter.style.top = dir.y + (resolvedStyle.height - letter.resolvedStyle.height) / 2;
     }
 }
+
+
+public class CardsWritingLine : VisualElement
+{
+    public CardsDraggableLetter letter;
+
+    private string writingLineClassName = "writing-line";
+    private string lineClassName = "horizontal-line";
+
+    public CardsWritingLine()
+    {
+        AddToClassList(writingLineClassName);
+
+        VisualElement lineEl = new();
+        lineEl.AddToClassList(lineClassName);
+        Add(lineEl);
+    }
+
+    public void AddLetter(CardsDraggableLetter letter)
+    {
+        UpdateLetterPos(letter);
+
+        this.letter = letter;
+        letter.line = this;
+    }
+
+    private void UpdateLetterPos(CardsDraggableLetter letter)
+    {
+        Vector2 targetPos = worldTransform.GetPosition();
+        Vector2 dir = new(targetPos.x - letter.originalPos.x, targetPos.y - letter.originalPos.y);
+
+        letter.style.left = dir.x + (resolvedStyle.width - letter.resolvedStyle.width) / 2;
+        letter.style.top = dir.y + (resolvedStyle.height - letter.resolvedStyle.height) / 2;
+    }
+}

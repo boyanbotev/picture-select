@@ -49,7 +49,7 @@ public class CardsScenePlayerController : MonoBehaviour
             {
                 OnClick(rayHit.collider.gameObject);
             }
-            else if (!IsPointerOverUIWithClass("card"))
+            else if (!IsPointerOverUIWithClass("card") && !IsPointerOverUIWithClass("letters"))
             {
                 currentState = PlayerState.Active;
                 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -89,7 +89,7 @@ public class CardsScenePlayerController : MonoBehaviour
         CollectableLetter letter = gameObject.GetComponent<CollectableLetter>();
         if (letter != null)
         {
-            Destroy(gameObject);
+            letter.Collect();
         }
     }
 
@@ -131,16 +131,14 @@ public class CardsScenePlayerController : MonoBehaviour
 
     private bool IsPointerOverUIWithClass(string className)
     {
-        Vector2 mousePosition = Input.mousePosition;
+        List<VisualElement> items = rootEl.Query<VisualElement>(null, className).ToList();
 
-        VisualElement[] cards = rootEl.Q(className: "cards").Children().ToArray();
-        Debug.Log(cards);
-
-        if (cards != null)
+        if (items != null)
         {
-            foreach (var card in cards)
+            foreach (var item in items)
             {
-                if (IsInsideElement(card, RuntimePanelUtils.CameraTransformWorldToPanel(rootEl.panel, Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main)))
+                Debug.Log(item);
+                if (IsInsideElement(item, RuntimePanelUtils.CameraTransformWorldToPanel(rootEl.panel, Camera.main.ScreenToWorldPoint(Input.mousePosition), Camera.main)))
                 {
                     Debug.Log("found");
                     return true;

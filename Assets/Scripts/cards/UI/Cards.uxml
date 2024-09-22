@@ -2,5 +2,6 @@
     <Style src="project://database/Assets/Scripts/cards/UI/Cards.uss?fileID=7433441132597879392&amp;guid=fa1d16cfaed00fe4a890f32689ccecfd&amp;type=3#Cards" />
     <ui:VisualElement class="main">
         <ui:VisualElement class="cards" />
+        <ui:VisualElement class="letters" style="flex-grow: 1;" />
     </ui:VisualElement>
 </ui:UXML>

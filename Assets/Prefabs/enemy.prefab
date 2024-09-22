@@ -103,7 +103,7 @@ MonoBehaviour:
   target: {fileID: 0}
   minApproachDistance: 10
   minAttackDistance: 3
-  speed: 2
+  speed: 0.7
   healthDisplay: {fileID: 0}
 --- !u!61 &6212148572788662960
 BoxCollider2D:
