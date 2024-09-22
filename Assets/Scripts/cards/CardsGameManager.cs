@@ -28,7 +28,7 @@ public class CardsGameManager : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] Vector2 bounds;
     [SerializeField] Vector2 safeBounds;
-    private float gap = 8f;
+    private float gap = 9f;
     private float minGap = 3.5f;
     private float decrementAmount = 0.1f;
 
@@ -44,6 +44,11 @@ public class CardsGameManager : MonoBehaviour
     public Texture2D GetImageCorrespondingToWord(string word)
     {
         return words.FirstOrDefault(x => x.word == word).enemy;
+    }
+
+    public string[] GetWordStrings()
+    {
+        return words.Select(x => x.word).ToArray();
     }
 
     void SpawnEnemy(WordData wordData)

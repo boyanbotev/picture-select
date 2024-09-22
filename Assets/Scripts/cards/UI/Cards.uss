@@ -22,7 +22,7 @@
 }
 
 .card {
-    background-color: white;
+    background-color: var(--cream-semi-transparent);
     width: 200px;
     height: 160px;
     align-items: center;

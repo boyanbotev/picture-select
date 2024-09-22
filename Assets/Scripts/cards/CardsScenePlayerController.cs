@@ -67,17 +67,14 @@ public class CardsScenePlayerController : MonoBehaviour
 
     void FireWordProjectile(string word)
     {
-        var projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        projectile.GetComponent<TextMeshPro>().text = word;
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         var chosenEnemies = enemies.Where(enemy => enemy.word == word).ToArray();
 
-        var chosenEnemy = GetClosestElement(chosenEnemies, transform.position);
-
-        // choose closest
-
-        if (chosenEnemy != null)
+        foreach (var chosenEnemy in chosenEnemies)
         {
+            var projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            projectile.GetComponent<TextMeshPro>().text = word;
+
             var dir = new Vector2(chosenEnemy.transform.position.x - transform.position.x, chosenEnemy.transform.position.y - transform.position.y);
             projectile.GetComponent<Rigidbody2D>().velocity = dir.normalized * fireSpeed;
         }

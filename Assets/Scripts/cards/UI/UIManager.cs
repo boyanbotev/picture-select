@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,7 +13,7 @@ public class UIManager : MonoBehaviour
     VisualElement root;
     VisualElement mainEl;
     VisualElement cardsEl;
-    VisualElement letters;
+    VisualElement lettersEl;
 
     private bool isDragging = false;
     private CardsGameManager gameManager;
@@ -23,7 +24,7 @@ public class UIManager : MonoBehaviour
         root = uiDoc.rootVisualElement;
         mainEl = root.Q(className: "main");
         cardsEl = root.Q(className: "cards");
-        letters = root.Q(className: "letters");
+        lettersEl = root.Q(className: "letters");
         Application.targetFrameRate = 60;
 
         gameManager = FindObjectOfType<CardsGameManager>();
@@ -31,14 +32,44 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        CollectableWord.onCollected += CreateCard;
-        CollectableLetter.onCollect += CreateDraggableLetter;
+        //CollectableWord.onCollected += CreateCard;
+        CollectableLetter.onCollect += OnCollectLetter;
     }
 
     private void OnDisable()
     {
-        CollectableWord.onCollected -= CreateCard;
-        CollectableLetter.onCollect -= CreateDraggableLetter;
+        //CollectableWord.onCollected -= CreateCard;
+        CollectableLetter.onCollect -= OnCollectLetter;
+    }
+
+    void OnCollectLetter(string letter)
+    {
+        CreateDraggableLetter(letter);
+        CreateNecessaryCards();
+    }
+
+    void CreateNecessaryCards()
+    {
+        cardsEl.Clear();
+
+        string[] words = gameManager.GetWordStrings();
+        string[] letters = lettersEl.Children().Select(x => {
+            var draggable = x as CardsDraggableLetter;
+            return draggable.value;
+         }).ToArray();
+
+
+        foreach (string word in words) {
+            bool shouldCreate = true;
+            foreach (var letter in word)
+            {
+                if (!letters.Contains(letter.ToString()))
+                {
+                    shouldCreate = false;
+                }
+            }
+            if (shouldCreate) CreateCard(word);
+        }
     }
 
     void CreateDraggableLetter(string letter)
@@ -48,7 +79,7 @@ public class UIManager : MonoBehaviour
         draggableLetter.RegisterCallback<PointerDownEvent>(evt => OnDragStart(evt, draggableLetter));
         draggableLetter.RegisterCallback<PointerMoveEvent>(evt => OnDrag(evt, draggableLetter));
         draggableLetter.RegisterCallback<PointerUpEvent>(evt => OnDragEnd(evt, draggableLetter));
-        letters.Add(draggableLetter);
+        lettersEl.Add(draggableLetter);
     }
 
     // is a mini drag and drop challenge
@@ -58,14 +89,6 @@ public class UIManager : MonoBehaviour
         var card = new Card(word, gameManager);
 
         cardsEl.Add(card);
-
-        //card.RegisterCallback<PointerDownEvent>(evt => OnCardClick(evt, card, word));
-    }
-
-    void OnCardClick(PointerDownEvent evt, VisualElement card, string word)
-    {
-        onCardUsed?.Invoke(word);
-        StartCoroutine(RemoveCardRoutine(card));
     }
 
     private void OnDragStart(PointerDownEvent evt, CardsDraggableLetter letter)
@@ -150,6 +173,7 @@ public class UIManager : MonoBehaviour
             if (joinedWord == card.word)
             {
                 ApplyCard(card);
+                CreateNecessaryCards();
             }
         }
     }
@@ -161,7 +185,7 @@ public class UIManager : MonoBehaviour
 
         foreach (var line in card.writingLinesList)
         {
-            letters.Remove(line.letter);
+            lettersEl.Remove(line.letter);
         }
     }
 
@@ -197,32 +221,3 @@ public class UIManager : MonoBehaviour
         cardsEl.Remove(card);
     }
  }
-
-public class Card : VisualElement
-{
-    public List<CardsWritingLine> writingLinesList;
-    public string word;
-
-    public Card(string word, CardsGameManager gameManager)
-    {
-        this.word = word;
-        AddToClassList("card");
-
-        var texture = gameManager.GetImageCorrespondingToWord(word);
-        var image = new ClickableImage(word, texture);
-        Add(image);
-
-        var writingLines = new VisualElement();
-        writingLines.AddToClassList("writing-lines");
-        Add(writingLines);
-
-        writingLinesList = new List<CardsWritingLine>();
-
-        foreach (char letter in word)
-        {
-            CardsWritingLine writingLine = new();
-            writingLines.Add(writingLine);
-            writingLinesList.Add(writingLine);
-        }
-    }
-}
