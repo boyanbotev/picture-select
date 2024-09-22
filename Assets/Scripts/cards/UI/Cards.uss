@@ -23,7 +23,8 @@
 
 .card {
     background-color: var(--cream-semi-transparent);
-    width: 200px;
+    /* width: 200px; */
+    display: inline-flex;
     height: 160px;
     align-items: center;
     justify-content: center;
@@ -34,6 +35,7 @@
 
 .writing-lines {
     flex-direction: row;
+    display: inline-flex;
 }
 
 .writing-line {
@@ -43,6 +45,7 @@
     border-radius: 10px;
     border-width: 2px;
     height: 80px;
+    padding: 0 2px;
 }
 
 .card Label {

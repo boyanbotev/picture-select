@@ -45,10 +45,10 @@ public class UIManager : MonoBehaviour
     void OnCollectLetter(string letter)
     {
         CreateDraggableLetter(letter);
-        CreateNecessaryCards();
+        CreateCards();
     }
 
-    void CreateNecessaryCards()
+    void CreateCards()
     {
         cardsEl.Clear();
 
@@ -173,7 +173,7 @@ public class UIManager : MonoBehaviour
             if (joinedWord == card.word)
             {
                 ApplyCard(card);
-                CreateNecessaryCards();
+                CreateCards();
             }
         }
     }
@@ -181,7 +181,6 @@ public class UIManager : MonoBehaviour
     void ApplyCard(Card card)
     {
         onCardUsed?.Invoke(card.word);
-        StartCoroutine(RemoveCardRoutine(card));
 
         foreach (var line in card.writingLinesList)
         {
@@ -213,11 +212,5 @@ public class UIManager : MonoBehaviour
         Rect rect1 = new(a.worldBound.position, a.worldBound.size);
         Rect rect2 = new(b.worldBound.position, b.worldBound.size);
         return rect1.Overlaps(rect2);
-    }
-
-    IEnumerator RemoveCardRoutine(VisualElement card)
-    {
-        yield return new WaitForSeconds(0.01f);
-        cardsEl.Remove(card);
     }
  }

@@ -70,7 +70,6 @@ public class CardsGameManager : MonoBehaviour
         var parentObject = new GameObject();
 
         var letters = wordData.word.ToCharArray();
-        var randomColor = GetRandomColor();
 
         foreach (var letter in letters)
         {
@@ -82,7 +81,7 @@ public class CardsGameManager : MonoBehaviour
             var data = letterData.FirstOrDefault(data => data.letter == letter.ToString());
             var texture = data.image;
             SetImage(renderer, texture);
-            renderer.color = randomColor;
+            renderer.color = GetRandomColor();
 
             letterObject.GetComponent<CollectableLetter>().letter = letter.ToString();
         }
@@ -114,9 +113,9 @@ public class CardsGameManager : MonoBehaviour
     }
     Color GetRandomColor()
     {
-        float r = Random.Range(0f, 0.5f);
-        float g = Random.Range(0f, 0.5f);
-        float b = Random.Range(0f, 0.5f);
+        float r = Random.Range(0f, 1f);
+        float g = Random.Range(0f, 0.4f);
+        float b = Random.Range(0f, 0.6f);
 
         return new Color(r, g, b, 1f); // Alpha is set to 1 for full opacity
     }
