@@ -10,18 +10,32 @@ public class KillAllEnemies : MonoBehaviour
         InvokeRepeating("CheckAllDead", 1f, 0.2f);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GoToNext();
+        }
+    }
+
+    void GoToNext()
+    {
+        int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (activeSceneIndex == SceneManager.sceneCountInBuildSettings - 1)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene(activeSceneIndex + 1);
+        }
+    }
+
     void CheckAllDead()
     {
         if (FindObjectOfType<EnemyController>() == null)
         {
-            int activeSceneIndex = SceneManager.GetActiveScene().buildIndex;
-            if (activeSceneIndex == SceneManager.sceneCountInBuildSettings - 1)
-            {
-                SceneManager.LoadScene(0);
-            } else
-            {
-                SceneManager.LoadScene(activeSceneIndex + 1);
-            }
+            GoToNext();
         }
     }
 }

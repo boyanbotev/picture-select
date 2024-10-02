@@ -41,6 +41,14 @@ public class CardsGameManager : MonoBehaviour
         StartCoroutine(SpawnRoutine());
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GoToNext();
+        }
+    }
+
     public Texture2D GetImageCorrespondingToWord(string word)
     {
         return words.FirstOrDefault(x => x.word == word).enemy;

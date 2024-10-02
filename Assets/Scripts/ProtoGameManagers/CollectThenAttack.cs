@@ -33,6 +33,14 @@ public class CollectThenAttack : MonoBehaviour
         InvokeRepeating("UpdateState", 1f, 0.2f);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GoToNext();
+        }
+    }
+
     void UpdateState()
     {
         if (state == CollectThenAttackState.Collecting)
