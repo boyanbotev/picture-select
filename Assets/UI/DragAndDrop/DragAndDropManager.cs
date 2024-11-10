@@ -148,7 +148,6 @@ public class DragAndDrop : Lesson
                     } 
                     else
                     {
-                        // Move old letter back to original position
                         ResetLetter(target.letter);
                     }
                 }
@@ -158,7 +157,7 @@ public class DragAndDrop : Lesson
             }
             else
             {
-                ResetLetter(draggedLetter);
+                MoveToFirstAvailableWritingLine(draggedLetter);
             }
 
             EvaluateWord();
@@ -166,6 +165,25 @@ public class DragAndDrop : Lesson
             draggedElement.ReleaseMouse();
             isDragging = false;
             draggedElement = null;
+        }
+    }
+
+    void MoveToFirstAvailableWritingLine(DraggableLetter letter)
+    {
+        bool hasMoved = false;
+        foreach (var writingLine in writingLines)
+        {
+            if (writingLine.letter == null)
+            {
+                writingLine.AddLetter(letter);
+                hasMoved = true;
+                break;
+            }
+        }
+
+        if (!hasMoved)
+        {
+            ResetLetter(letter);
         }
     }
 
